@@ -280,9 +280,9 @@ html[data-blocked] body::before{display:none}
 <main class="wrap">
   <section class="hero">
     <div>
-      <div class="status" id="status"><span class="dot"></span><span id="status-t">Круглосуточно, алкоголь с 08:00 до 23:00</span></div>
-      <h1>Выберите дома<em>заберите в магазине</em></h1>
-      <p class="lead">Смотрите полки онлайн и звоните. Мы назовём цену и отложим бутылку к вашему приходу. Покупка и оплата только в магазине.</p>
+      <div class="status" id="status"><span class="dot"></span><span id="status-t">Круглосуточно</span></div>
+      <h1>Выберите дома<em>и быстро доставим прямо к вам</em></h1>
+      <p class="lead">Смотрите полки онлайн и звоните. Мы назовём цену и оформим доставку прямо к вам домой</p>
       <div class="actions">
         <a class="btn btn-main" href="tel:+74950959599">Позвонить и отложить</a>
         <a class="btn btn-ghost" href="#contacts">Как добраться</a>
@@ -293,7 +293,7 @@ html[data-blocked] body::before{display:none}
 
   <div class="facts">
     <div class="fact"><span class="label">Адрес</span><strong>Москва, Мещанская ул., 18</strong></div>
-    <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно, алкоголь с 08:00 до 23:00</strong></div>
+    <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно</strong></div>
     <div class="fact"><span class="label">Телефон</span><strong>+7 (495) 095-95-99</strong></div>
   </div>
 
@@ -304,15 +304,15 @@ html[data-blocked] body::before{display:none}
     </div>
     <nav class="chips" id="chips" aria-label="Категории"></nav>
     <div id="shelves"></div>
-    <p class="note">Наличие и цены уточняйте по телефону. Рисунки условные и не повторяют вид товара, внешний вид упаковки может отличаться.</p>
+    <p class="note">Наличие и цены уточняйте по телефону.</p>
   </section>
 
   <section class="section">
     <div class="sec-head"><h2>Как забрать</h2></div>
     <ol class="steps">
       <li><h3>Выберите</h3><p>Пройдитесь по полкам и запомните, что хотите взять.</p></li>
-      <li><h3>Позвоните</h3><p>Назовём цену, проверим наличие и отложим на ваше имя.</p></li>
-      <li><h3>Приходите</h3><p>Заберите и оплатите в магазине. Возьмите с собой паспорт.</p></li>
+      <li><h3>Позвоните</h3><p>Назовём цену, проверим наличие и оформим заказ.</p></li>
+      <li><h3>Ожидайте</h3><p>Доставим вам прямо домой!</p></li>
     </ol>
   </section>
 
@@ -322,8 +322,8 @@ html[data-blocked] body::before{display:none}
       <div>
         <div class="c-list">
           <div class="fact"><span class="label">Адрес</span><strong>Москва, Мещанская ул., 18</strong></div>
-          <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно, алкоголь с 08:00 до 23:00</strong></div>
-          <div class="fact"><span class="label">Телефон и WhatsApp</span><strong>+7 (495) 095-95-99</strong></div>
+          <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно</strong></div>
+          <div class="fact"><span class="label">Телефон</span><strong>+7 (495) 095-95-99</strong></div>
         </div>
         <div class="actions">
           <a class="btn btn-main btn-sm" href="tel:+74950959599">Позвонить</a>
@@ -342,7 +342,7 @@ html[data-blocked] body::before{display:none}
 
 <footer class="wrap">
   <div class="warn">Чрезмерное употребление алкоголя вредит вашему здоровью</div>
-  <div>Дистанционная продажа алкогольной продукции не осуществляется. Сайт носит информационный характер. Покупка и оплата только в магазине по адресу Москва, Мещанская ул., 18, 129090. Продажа лицам младше 18 лет запрещена.</div>
+  <div>Круглосуточная доставка алкоголя по МСК</div>
 </footer>
 
 <script>
@@ -422,7 +422,7 @@ try{
   const h = parseInt(new Intl.DateTimeFormat("ru-RU",{hour:"numeric",hour12:false,timeZone:"Europe/Moscow"}).format(new Date()),10);
   const open = h>=8 && h<23;
   document.getElementById("status").classList.add("open");
-  document.getElementById("status-t").textContent = open ? "Открыто, работаем круглосуточно" : "Магазин открыт, алкоголь продаём с 08:00";
+  document.getElementById("status-t").textContent = open ? "Открыто, работаем круглосуточно" : "Доставка круглосуточно";
 }catch(e){}
 
 // age gate
