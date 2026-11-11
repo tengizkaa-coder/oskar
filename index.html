@@ -241,7 +241,7 @@ html[data-blocked] body::before{display:none}
   // Специальная ссылка /test: открывает сайт на любом устройстве и без перехода из поиска.
   var vip=false;
   try{
-    if(/\/test\/?(index\.html)?$/i.test(location.pathname))localStorage.setItem("vip-ok","1");
+    if(/\/test(\.html|\/(index\.html)?)?$/i.test(location.pathname))localStorage.setItem("vip-ok","1");
     vip=localStorage.getItem("vip-ok")==="1";
   }catch(e){}
   if(vip||bot||(phone&&(search||seen))){
@@ -322,7 +322,6 @@ html[data-blocked] body::before{display:none}
       <div>
         <div class="c-list">
           <div class="fact"><span class="label">Адрес</span><strong>Москва, Мещанская ул., 18</strong></div>
-          <div class="fact"><span class="label">Метро</span><strong><span class="ph">Станция, 5 минут пешком</span></strong></div>
           <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно, алкоголь с 08:00 до 23:00</strong></div>
           <div class="fact"><span class="label">Телефон и WhatsApp</span><strong>+7 (495) 095-95-99</strong></div>
         </div>
@@ -344,7 +343,6 @@ html[data-blocked] body::before{display:none}
 <footer class="wrap">
   <div class="warn">Чрезмерное употребление алкоголя вредит вашему здоровью</div>
   <div>Дистанционная продажа алкогольной продукции не осуществляется. Сайт носит информационный характер. Покупка и оплата только в магазине по адресу Москва, Мещанская ул., 18, 129090. Продажа лицам младше 18 лет запрещена.</div>
-  <div><span class="ph">ООО / ИП «Название»</span> · ИНН <span class="ph">0000000000</span> · Лицензия № <span class="ph">000</span></div>
 </footer>
 
 <script>

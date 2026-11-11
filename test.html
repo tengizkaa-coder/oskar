@@ -1,0 +1,435 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>АЛКО МСК — алкомаркет на Мещанской ул., 18, Москва</title>
+<meta name="description" content="АЛКО МСК: виски, водка, коньяк, вино, игристое и пиво. Выберите на сайте, позвоните +7 (495) 095-95-99, мы отложим. Москва, Мещанская ул., 18.">
+<meta name="robots" content="index,follow">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@600;800&family=Golos+Text:wght@400;500;600&family=Cormorant:ital,wght@1,500;1,600&display=swap">
+<style>
+/* Layout: барная полка с подсветкой. Каждая категория = полка, бутылки стоят на доске, под ними ценники без цены. */
+:root{
+  --bg:#150E17; --bg-2:#1F1522; --fg:#F3E8DA; --muted:#A898A6; --line:#35283B;
+  --amber:#F5A83C; --amber-fg:#1A1005; --accent-text:#F5A83C; --glow:30%;
+  --board:#4A3323; --board-edge:#2B1D14;
+  --tag:#F3E8DA; --tag-fg:#1B121C; --tag-muted:#6B5A62; --tag-line:#CDBFAE;
+  --ok:#5BD38A; --off:#E26A6A; --btl-stroke:rgba(243,232,218,.22);
+  /* стекло, напитки, этикетки: цвета предметов, одинаковы в обеих темах */
+  --g-clear:#C9D6DE; --g-green:#2F5A3F; --g-amber:#6A3F1A; --g-dark:#33262E;
+  --q-whisky:#C7772A; --q-vodka:#EAF2F6; --q-gin:#DCEEE8; --q-cognac:#9A4E1C; --q-vermouth:#E3CF7E;
+  --q-white:#E2D88A; --q-beer:#D9A032;
+  --lb-cream:#F1E6D2; --lb-dark:#22161F; --lb-amber:#E09A2E; --lb-ink:#8A7A80;
+  --cap-dark:#4A3C4E; --cap-gold:#D8B25A; --cap-red:#B8343A;
+  --display:"Sofia Sans Extra Condensed","Arial Narrow","Roboto Condensed",Impact,sans-serif;
+  --serif:"Cormorant","Georgia","Times New Roman",serif;
+  --body:"Golos Text","Segoe UI",system-ui,-apple-system,sans-serif;
+  --stand:176px;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#F2ECF1; --bg-2:#FFFFFF; --fg:#1D1320; --muted:#6A5B6C; --line:#DACFDC;
+  --accent-text:#96560A; --glow:38%; --board:#7A5438; --board-edge:#5A3C27;
+  --tag:#FFFFFF; --tag-fg:#1D1320; --tag-muted:#6A5B6C; --tag-line:#DACFDC;
+  --ok:#1F8A4C; --off:#B83A3A; --btl-stroke:rgba(29,19,32,.28); color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#F2ECF1; --bg-2:#FFFFFF; --fg:#1D1320; --muted:#6A5B6C; --line:#DACFDC;
+  --accent-text:#96560A; --glow:38%; --board:#7A5438; --board-edge:#5A3C27;
+  --tag:#FFFFFF; --tag-fg:#1D1320; --tag-muted:#6A5B6C; --tag-line:#DACFDC;
+  --ok:#1F8A4C; --off:#B83A3A; --btl-stroke:rgba(29,19,32,.28); color-scheme:light}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1100px;margin:0 auto}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.005em;line-height:.9;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.ph{border-bottom:1.5px dashed var(--accent-text)}
+.label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.logo{font-family:var(--display);font-weight:800;font-size:30px;line-height:1;text-transform:uppercase;letter-spacing:.03em}
+.logo i{font-family:var(--serif);font-style:italic;font-weight:600;text-transform:none;color:var(--accent-text);font-size:.8em;letter-spacing:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:4px;padding:13px 22px;
+  font:600 15px var(--body);text-decoration:none;cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums}
+.btn-main{background:var(--amber);color:var(--amber-fg)}
+.btn-ghost{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn-sm{padding:10px 16px;font-size:14px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:end;padding-block:44px 36px}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--off)}
+.status.open .dot{background:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 22%,transparent)}
+.hero h1{font-size:clamp(58px,16vw,104px);margin-top:14px}
+.hero h1 em{display:block;font-family:var(--serif);font-style:italic;font-weight:500;text-transform:none;
+  color:var(--accent-text);font-size:.6em;line-height:1;letter-spacing:-.01em;margin-top:.06em}
+.hero .lead{color:var(--muted);max-width:46ch;margin-top:18px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.hero-shelf{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:290px;padding-bottom:10px;
+  background:
+    linear-gradient(var(--board),var(--board-edge)) bottom/100% 10px no-repeat,
+    radial-gradient(ellipse 62% 78% at 50% 100%,color-mix(in srgb,var(--amber) var(--glow),transparent),transparent 72%)}
+.hero-shelf svg{height:250px;width:auto}
+.hero-shelf svg:nth-child(2){height:226px}
+.hero-shelf svg:nth-child(4){height:150px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);border-block:1px solid var(--line)}
+.fact{padding:16px 18px 16px 0;display:grid;gap:4px;min-width:0}
+.fact+.fact{padding-left:18px;border-left:1px solid var(--line)}
+.fact strong{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* catalog */
+.section{padding-block:44px 8px}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.sec-head h2{font-size:clamp(44px,9vw,72px)}
+.sec-head p{color:var(--muted);max-width:38ch;font-size:15px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border-radius:4px;padding:7px 12px;box-shadow:inset 0 0 0 1px var(--line);color:var(--fg);
+  font:500 14px var(--body);text-decoration:none}
+.chip:hover{box-shadow:inset 0 0 0 1px var(--accent-text);color:var(--accent-text)}
+.shelf{display:grid;grid-template-columns:150px minmax(0,1fr);gap:8px 16px;padding-top:26px;scroll-margin-top:84px}
+.shelf-head{align-self:start;height:calc(var(--stand) + 8px);display:flex;align-items:flex-end}
+.shelf h3{font-size:38px}
+.shelf h3 small{display:block;font:500 12px var(--body);letter-spacing:.04em;text-transform:none;color:var(--muted);margin-top:6px}
+.row{list-style:none;margin:0;padding:0 6px 4px;display:flex;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:thin;
+  background:
+    linear-gradient(var(--board),var(--board-edge)) 0 var(--stand)/100% 8px no-repeat,
+    radial-gradient(ellipse 58% 150px at 50% var(--stand),color-mix(in srgb,var(--amber) var(--glow),transparent),transparent 100%) no-repeat}
+.item{flex:none;width:148px;display:flex;flex-direction:column;align-items:center;scroll-snap-align:start}
+.stand{height:var(--stand);display:flex;align-items:flex-end}
+.stand svg{height:156px;width:auto;display:block}
+.tag{position:relative;margin-top:20px;width:calc(100% - 12px);background:var(--tag);color:var(--tag-fg);border-radius:3px;
+  padding:9px 10px 8px;display:flex;flex-direction:column;gap:2px;flex:1;font-size:13px;line-height:1.25}
+.tag::before{content:"";position:absolute;left:50%;top:-12px;width:2px;height:12px;background:var(--tag-line)}
+.tag b{font-weight:600}
+.tag span{color:var(--tag-muted);font-variant-numeric:tabular-nums}
+.tag i{font-style:normal;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tag-muted);
+  border-top:1px dashed var(--tag-line);padding-top:5px;margin-top:auto}
+.note{color:var(--muted);font-size:14px;margin-top:22px}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);counter-reset:s;border-top:1px solid var(--line)}
+.steps li{counter-increment:s;padding:20px 20px 8px 0;min-width:0}
+.steps li+li{padding-left:20px;border-left:1px solid var(--line)}
+.steps li::before{content:counter(s);font:800 72px/0.9 var(--display);color:var(--accent-text);display:block}
+.steps h3{font-size:30px;margin-block:8px 6px}
+.steps p{color:var(--muted);font-size:15px}
+
+/* contacts */
+.contacts{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.c-list{display:grid;border-top:1px solid var(--line)}
+.c-list .fact{padding:14px 0;border-bottom:1px solid var(--line)}
+.c-list .fact+.fact{padding-left:0;border-left:0}
+.map{border-radius:4px;min-height:240px;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);text-align:center;padding:16px;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 43px,var(--line) 43px 44px),
+    repeating-linear-gradient(90deg,transparent 0 43px,var(--line) 43px 44px),var(--bg-2)}
+.pin{width:18px;height:18px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--amber);margin:0 auto 10px}
+
+footer{border-top:1px solid var(--line);margin-top:48px;padding-block:24px 36px;color:var(--muted);font-size:13px;display:grid;gap:10px}
+footer .warn{font:800 clamp(24px,5vw,40px)/.95 var(--display);text-transform:uppercase;color:var(--fg);text-wrap:balance}
+
+/* age gate */
+.gate{position:fixed;inset:0;min-height:100dvh;overflow-y:auto;z-index:20;display:grid;place-items:center;background:var(--bg);
+  padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px))}
+.gate-box{max-width:420px;text-align:center;display:grid;gap:16px;justify-items:center}
+.gate-box .age{font:800 clamp(120px,34vw,200px)/.8 var(--display);color:var(--amber);
+  text-shadow:0 0 60px color-mix(in srgb,var(--amber) 45%,transparent)}
+.gate-box h2{font-size:34px}
+.gate-box p{color:var(--muted)}
+.gate-box .row2{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;padding-block:28px 24px;gap:20px}
+  .hero-shelf{height:200px}
+  .hero-shelf svg{height:170px}.hero-shelf svg:nth-child(2){height:154px}.hero-shelf svg:nth-child(4){height:104px}
+  .shelf{grid-template-columns:1fr}
+  .shelf-head{height:auto}
+  .shelf h3 small{display:inline;margin-left:8px}
+}
+@media (max-width:680px){
+  .facts,.steps,.contacts{grid-template-columns:1fr}
+  .fact+.fact,.steps li+li{padding-left:0;border-left:0;border-top:1px solid var(--line)}
+  .item{width:132px}
+  .logo{font-size:26px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .stand svg{transition:transform .25s ease}
+  .item:hover .stand svg{transform:translateY(-6px)}
+  .status.open .dot{animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 7px color-mix(in srgb,var(--ok) 0%,transparent)}}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+
+/* доступ: только телефон + переход из поиска */
+html[data-blocked] body>*:not(#blocked){display:none!important}
+html[data-blocked] body::before{display:none}
+#blocked{min-height:100vh;min-height:100dvh;display:grid;place-items:center;text-align:center;padding:24px;background:var(--bg);color:var(--fg)}
+#blocked div{max-width:420px;display:grid;gap:14px;justify-items:center}
+#blocked b{font:800 56px/.9 var(--display);text-transform:uppercase;letter-spacing:.03em}
+#blocked b i{font:italic 600 .8em var(--serif);text-transform:none;color:var(--accent-text)}
+#blocked p{color:var(--muted)}
+
+
+/* фото товаров */
+.stand img{height:156px;width:76px;object-fit:contain;display:block;background:#fff;border-radius:4px;transition:transform .25s ease}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .stand img{background:transparent;mix-blend-mode:multiply}}
+:root[data-theme="light"] .stand img{background:transparent;mix-blend-mode:multiply}
+@media (prefers-reduced-motion:no-preference){.item:hover .stand img{transform:translateY(-6px)}}
+@media (max-width:680px){.stand img{height:140px;width:68px}}
+
+/* phone */
+.callbar{display:none}
+@media (max-width:680px){
+  body{padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));padding-bottom:calc(76px + env(safe-area-inset-bottom,0px));font-size:15px}
+  .bar{padding-block:8px}
+  .bar .btn-sm{padding:9px 12px;font-size:13px}
+  .hero{padding-block:20px 18px}
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .hero>div{min-width:0}
+  .hero h1{font-size:clamp(44px,13.5vw,68px);overflow-wrap:anywhere}
+  .hero .lead{font-size:15px;margin-top:14px}
+  .hero .actions{display:grid;grid-template-columns:1fr}
+  .hero .actions .btn{width:100%;padding:15px 18px}
+  .hero-shelf{height:170px}
+  .hero-shelf svg{height:142px}.hero-shelf svg:nth-child(2){height:130px}.hero-shelf svg:nth-child(4){height:88px}
+  .fact strong{font-size:16px}
+  .facts .fact:first-child{padding-top:14px}
+  .section{padding-block:32px 4px}
+  .sec-head{margin-bottom:12px}
+  .chips{margin-inline:-14px;padding-inline:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:4;background:var(--bg);padding-block:8px;border-bottom:1px solid var(--line)}
+  .chip{padding:10px 14px;font-size:15px}
+  .shelf{padding-top:20px;scroll-margin-top:120px}
+  .shelf h3{font-size:34px}
+  .row{margin-inline:-14px;padding-inline:14px;scroll-padding-left:14px}
+  .stand svg{height:140px}
+  :root{--stand:160px}
+  .steps li{padding:16px 0 10px}
+  .steps li::before{font-size:56px}
+  .c-list .fact{padding:12px 0}
+  .contacts .actions{display:grid;grid-template-columns:1fr 1fr}
+  .contacts .actions .btn{width:100%}
+  .map{min-height:280px}
+  footer{margin-top:32px;padding-bottom:20px}
+  .gate-box .row2{display:grid;grid-template-columns:1fr;width:100%}
+  .gate-box .row2 .btn{width:100%;padding:16px}
+  .callbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:6;gap:10px;
+    padding:10px max(14px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));
+    background:var(--bg);border-top:1px solid var(--line)}
+  .callbar .btn{flex:1;padding:14px 12px;font-size:16px}
+}
+@media (hover:none){.item:hover .stand svg{transform:none}}
+</style>
+<script>
+// Доступ: только с телефона и только по переходу из Google или Яндекса.
+// Роботы поисковиков пропускаются, иначе сайт не попадёт в выдачу.
+(function(){
+  var ua=navigator.userAgent||"";
+  var bot=/Googlebot|Google-InspectionTool|GoogleOther|AdsBot-Google|YandexBot|YandexMobileBot|YandexAccessibilityBot|YandexMetrika|YandexWebmaster|YandexImages/i.test(ua);
+  var phone=/Android.+Mobile|iPhone|iPod|Windows Phone|Mobile Safari|Mobile/i.test(ua) && !/iPad|Tablet/i.test(ua);
+  var host="";
+  try{host=new URL(document.referrer).hostname.toLowerCase()}catch(e){}
+  var search=/(^|\.)(google\.[a-z.]+|yandex\.[a-z.]+|ya\.ru)$/.test(host)||/^(www\.)?(maps\.google|yandex)\./.test(host);
+  var seen=false;
+  try{seen=sessionStorage.getItem("src-ok")==="1"}catch(e){}
+  // Специальная ссылка /test: открывает сайт на любом устройстве и без перехода из поиска.
+  var vip=false;
+  try{
+    if(/\/test(\.html|\/(index\.html)?)?$/i.test(location.pathname))localStorage.setItem("vip-ok","1");
+    vip=localStorage.getItem("vip-ok")==="1";
+  }catch(e){}
+  if(vip||bot||(phone&&(search||seen))){
+    try{if(!bot)sessionStorage.setItem("src-ok","1")}catch(e){}
+    return;
+  }
+  document.documentElement.setAttribute("data-blocked","1");
+  document.addEventListener("DOMContentLoaded",function(){
+    var d=document.createElement("div");d.id="blocked";
+    d.innerHTML='<div><b>Алко <i>мск</i></b><p>Сайт открывается только на телефоне, при переходе из поиска Google или Яндекса.</p></div>';
+    document.body.appendChild(d);
+  });
+})();
+</script>
+
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-t">
+  <div class="gate-box">
+    <div class="age">18+</div>
+    <h2 id="gate-t">Вам уже есть 18 лет?</h2>
+    <p>Сайт содержит информацию об алкогольной продукции и предназначен только для совершеннолетних.</p>
+    <div class="row2">
+      <button class="btn btn-main" id="yes">Да, мне есть 18</button>
+      <button class="btn btn-ghost" id="no">Нет</button>
+    </div>
+    <p id="nope" hidden>Извините, сайт доступен только с 18 лет.</p>
+  </div>
+</div>
+
+<header>
+  <div class="wrap bar">
+    <div class="logo">Алко <i>мск</i></div>
+    <a class="btn btn-main btn-sm" href="tel:+74950959599">+7 (495) 095-95-99</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="status" id="status"><span class="dot"></span><span id="status-t">Круглосуточно, алкоголь с 08:00 до 23:00</span></div>
+      <h1>Выберите дома<em>заберите в магазине</em></h1>
+      <p class="lead">Смотрите полки онлайн и звоните. Мы назовём цену и отложим бутылку к вашему приходу. Покупка и оплата только в магазине.</p>
+      <div class="actions">
+        <a class="btn btn-main" href="tel:+74950959599">Позвонить и отложить</a>
+        <a class="btn btn-ghost" href="#contacts">Как добраться</a>
+      </div>
+    </div>
+    <div class="hero-shelf" id="hero-shelf" aria-hidden="true"></div>
+  </section>
+
+  <div class="facts">
+    <div class="fact"><span class="label">Адрес</span><strong>Москва, Мещанская ул., 18</strong></div>
+    <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно, алкоголь с 08:00 до 23:00</strong></div>
+    <div class="fact"><span class="label">Телефон</span><strong>+7 (495) 095-95-99</strong></div>
+  </div>
+
+  <section class="section" id="catalog">
+    <div class="sec-head">
+      <h2>На полках</h2>
+      <p id="count"></p>
+    </div>
+    <nav class="chips" id="chips" aria-label="Категории"></nav>
+    <div id="shelves"></div>
+    <p class="note">Наличие и цены уточняйте по телефону. Рисунки условные и не повторяют вид товара, внешний вид упаковки может отличаться.</p>
+  </section>
+
+  <section class="section">
+    <div class="sec-head"><h2>Как забрать</h2></div>
+    <ol class="steps">
+      <li><h3>Выберите</h3><p>Пройдитесь по полкам и запомните, что хотите взять.</p></li>
+      <li><h3>Позвоните</h3><p>Назовём цену, проверим наличие и отложим на ваше имя.</p></li>
+      <li><h3>Приходите</h3><p>Заберите и оплатите в магазине. Возьмите с собой паспорт.</p></li>
+    </ol>
+  </section>
+
+  <section class="section" id="contacts">
+    <div class="sec-head"><h2>Где мы</h2></div>
+    <div class="contacts">
+      <div>
+        <div class="c-list">
+          <div class="fact"><span class="label">Адрес</span><strong>Москва, Мещанская ул., 18</strong></div>
+          <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно, алкоголь с 08:00 до 23:00</strong></div>
+          <div class="fact"><span class="label">Телефон и WhatsApp</span><strong>+7 (495) 095-95-99</strong></div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-main btn-sm" href="tel:+74950959599">Позвонить</a>
+          <a class="btn btn-ghost btn-sm" href="https://maps.app.goo.gl/zo4fhsFT8XFBEB9m9" target="_blank" rel="noopener">Открыть в Google Картах</a>
+        </div>
+      </div>
+      <div class="map" style="padding:0;overflow:hidden"><iframe title="Карта: расположение магазина" src="https://www.google.com/maps?q=55.7774025,37.628121&z=17&hl=ru&output=embed" style="border:0;width:100%;height:100%;min-height:300px" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+    </div>
+  </section>
+</main>
+
+<div class="callbar">
+  <a class="btn btn-main" href="tel:+74950959599">Позвонить</a>
+  <a class="btn btn-ghost" href="#contacts">Как добраться</a>
+</div>
+
+<footer class="wrap">
+  <div class="warn">Чрезмерное употребление алкоголя вредит вашему здоровью</div>
+  <div>Дистанционная продажа алкогольной продукции не осуществляется. Сайт носит информационный характер. Покупка и оплата только в магазине по адресу Москва, Мещанская ул., 18, 129090. Продажа лицам младше 18 лет запрещена.</div>
+</footer>
+
+<script>
+// форма бутылки: bw ширина, bt верх корпуса, sh высота плеч, nw горло, nt верх горла
+const CATS = {
+  "whisky":    {t:"Виски",        s:{bw:40,bt:72,sh:14,nw:13,nt:30}, glass:"--g-clear", go:.3,  liq:"--q-whisky"},
+  "vodka":     {t:"Водка",        s:{bw:30,bt:62,sh:22,nw:12,nt:20}, glass:"--g-clear", go:.3,  liq:"--q-vodka"},
+  "gin":       {t:"Джин",         s:{bw:38,bt:68,sh:12,nw:14,nt:32}, glass:"--g-clear", go:.3,  liq:"--q-gin"},
+  "cognac":    {t:"Коньяк",       s:{bw:48,bt:88,sh:30,nw:12,nt:34}, glass:"--g-clear", go:.3,  liq:"--q-cognac"},
+  "liqueur":   {t:"Ликёр",        s:{bw:42,bt:80,sh:18,nw:13,nt:36}, glass:"--g-dark",  go:1,   liq:null},
+  "vermouth":  {t:"Вермут",       s:{bw:32,bt:70,sh:26,nw:11,nt:18}, glass:"--g-clear", go:.3,  liq:"--q-vermouth"},
+  "white-wine":{t:"Вино белое",   s:{bw:30,bt:68,sh:22,nw:10,nt:16}, glass:"--g-green", go:.45, liq:"--q-white"},
+  "red-wine":  {t:"Вино красное", s:{bw:30,bt:68,sh:22,nw:10,nt:16}, glass:"--g-dark",  go:1,   liq:null},
+  "sparkling": {t:"Игристое",     s:{bw:36,bt:82,sh:46,nw:11,nt:16}, glass:"--g-green", go:1,   liq:null, foil:true},
+  "beer":      {t:"Пиво",         s:{bw:26,bt:102,sh:28,nw:10,nt:64},glass:["--g-amber","--g-green","--g-clear"], go:.9, liq:"--q-beer", crown:true}
+};
+const ITEMS = [
+  ["whisky","Jameson","0,7 л","https://krasnoeibeloe.servicecdn.ru/upload/iblock/e70/9xos1ixcdi2tc2mer69lak0hptth3keu/jameson_07l_180920.jpg"],["whisky","Jack Daniel's","0,7 л","https://krasnoeibeloe.servicecdn.ru/upload/iblock/fea/g4crpwl3vy5oyyn9da7wz5a6hx3fj2p2/jack_190224_t.jpg"],["whisky","William Lawson's","0,5 л","https://krasnoeibeloe.servicecdn.ru/upload/iblock/368/pirq2oe3o9tg4az6090k9v1sp96m3j9r/william_lawsons_16032022.jpg"],
+  ["whisky","The Macallan 12 лет","0,7 л"],["whisky","Chivas Regal 12 лет","0,7 л","https://krasnoeibeloe.servicecdn.ru/upload/resize_cache/iblock/2e9/h2k47yj7r5djcch5d0clp2w0b2x154lo/200_356_1/chivas_12yo_100225_t.jpg"],
+  ["vodka","Beluga","0,7 л"],["vodka","Чистые Росы","0,7 л"],["vodka","Белая Берёзка","0,5 л"],["vodka","Русский Стандарт","0,5 л"],
+  ["gin","Barrister","0,7 л"],["gin","Gordon's","0,7 л"],
+  ["cognac","Арарат 5 звёзд","0,5 л"],["cognac","Старый Кёнигсберг","0,5 л"],["cognac","Старейшина","0,5 л"],
+  ["liqueur","Jägermeister","0,7 л"],["liqueur","Baileys","0,7 л"],
+  ["vermouth","Martini Bianco","0,7 л"],["vermouth","Martini Fiero","0,7 л"],
+  ["white-wine","Sauvignon Blanc","0,75 л"],["white-wine","Pinot Grigio","0,75 л"],["white-wine","Riesling","0,75 л"],
+  ["red-wine","Chianti","0,75 л"],["red-wine","Montepulciano d'Abruzzo","0,75 л"],["red-wine","Киндзмараули","0,75 л"],
+  ["sparkling","Prosecco","0,75 л"],["sparkling","Шампанское брют, Франция","0,75 л"],["sparkling","Asti","0,75 л"],
+  ["beer","Bud","0,5 л"],["beer","Stella Artois","0,5 л"],["beer","Corona Extra","0,355 л"]
+];
+
+let uid = 0;
+const DW=[0,2,-2,3,-1], DH=[0,-5,4,-2,6], LB=["--lb-cream","--lb-dark","--lb-amber"], CAP=["--cap-dark","--cap-gold","--cap-red"];
+function bottle(key, i){
+  const c = CATS[key], s = c.s, id = "b"+(uid++);
+  const bw = s.bw+DW[i%5], bt = s.bt+DH[i%5], nt = s.nt+DH[i%5], st = bt-s.sh, B = 158, r = 4;
+  const L = 30-bw/2, R = 30+bw/2, nl = 30-s.nw/2, nr = 30+s.nw/2;
+  const p = `M${nl} ${nt}L${nl} ${st}C${nl} ${st+s.sh*.6} ${L} ${bt-s.sh*.5} ${L} ${bt}L${L} ${B-r}Q${L} ${B} ${L+r} ${B}L${R-r} ${B}Q${R} ${B} ${R} ${B-r}L${R} ${bt}C${R} ${bt-s.sh*.5} ${nr} ${st+s.sh*.6} ${nr} ${st}L${nr} ${nt}Z`;
+  const glass = Array.isArray(c.glass) ? c.glass[i%c.glass.length] : c.glass;
+  const bh = B-bt, ly = bt+bh*.26, lh = bh*.44, lb = LB[(i+key.length)%3];
+  const kind = i%3;
+  const label = kind===2
+    ? `<ellipse cx="30" cy="${ly+lh/2}" rx="${bw/2-4}" ry="${lh/2}" style="fill:var(${lb})"/>`
+    : `<rect x="${kind===1?0:L+4}" y="${ly}" width="${kind===1?60:bw-8}" height="${lh}" rx="${kind===1?0:1.5}" style="fill:var(${lb})"/>`;
+  const capH = c.crown ? 5 : 9;
+  return `<svg viewBox="0 0 60 160" aria-hidden="true">
+    <defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs>
+    <path d="${p}" style="fill:var(${glass});fill-opacity:${c.go};stroke:var(--btl-stroke)" stroke-width="1"/>
+    <g clip-path="url(#${id})">
+      ${c.liq ? `<rect x="0" y="${st-4}" width="60" height="160" style="fill:var(${c.liq})" opacity=".9"/>` : ""}
+      ${c.foil ? `<rect x="0" y="0" width="60" height="${nt+34}" style="fill:var(--cap-gold)"/>` : ""}
+      ${label}
+      <rect x="${30-bw*.2}" y="${ly+lh/2-1}" width="${bw*.4}" height="2" style="fill:var(--lb-ink)" opacity=".7"/>
+      <rect x="${L+3}" y="0" width="3.5" height="160" fill="#fff" opacity=".2"/>
+    </g>
+    <rect x="${nl-1.5}" y="${nt-capH+3}" width="${s.nw+3}" height="${capH}" rx="1.5" style="fill:var(${c.foil||c.crown?"--cap-gold":CAP[(i+key.length)%3]})"/>
+  </svg>`;
+}
+function fb(el,k,i){el.parentNode.innerHTML=bottle(k,i)}
+function plural(n){const a=n%10,b=n%100;return n+" "+(a===1&&b!==11?"позиция":a>=2&&a<=4&&(b<10||b>=20)?"позиции":"позиций")}
+
+document.getElementById("hero-shelf").innerHTML = bottle("whisky",0)+bottle("red-wine",1)+bottle("sparkling",0)+bottle("beer",0)+bottle("cognac",1);
+document.getElementById("count").textContent = plural(ITEMS.length)+" в "+Object.keys(CATS).length+" категориях. Ассортимент обновляется, спрашивайте по телефону.";
+document.getElementById("chips").innerHTML = Object.entries(CATS).map(([k,c])=>`<a class="chip" href="#${k}">${c.t}</a>`).join("");
+document.getElementById("shelves").innerHTML = Object.entries(CATS).map(([k,c])=>{
+  const items = ITEMS.filter(x=>x[0]===k);
+  return `<section class="shelf" id="${k}">
+    <div class="shelf-head"><h3>${c.t}<small>${plural(items.length)}</small></h3></div>
+    <ul class="row">${items.map((x,i)=>`<li class="item">
+      <div class="stand">${x[3]?`<img src="${x[3]}" alt="${x[1]}, ${x[2]}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="fb(this,'${k}',${i})">`:bottle(k,i)}</div>
+      <div class="tag"><b>${x[1]}</b><span>${x[2]}</span><i>Цена по звонку</i></div>
+    </li>`).join("")}</ul>
+  </section>`;
+}).join("");
+
+// открыто или закрыто, по московскому времени
+try{
+  const h = parseInt(new Intl.DateTimeFormat("ru-RU",{hour:"numeric",hour12:false,timeZone:"Europe/Moscow"}).format(new Date()),10);
+  const open = h>=8 && h<23;
+  document.getElementById("status").classList.add("open");
+  document.getElementById("status-t").textContent = open ? "Открыто, работаем круглосуточно" : "Магазин открыт, алкоголь продаём с 08:00";
+}catch(e){}
+
+// age gate
+const gate = document.getElementById("gate");
+try{ if(localStorage.getItem("age-ok")==="1") gate.hidden = true; }catch(e){}
+document.getElementById("yes").addEventListener("click", ()=>{ gate.hidden = true; try{ localStorage.setItem("age-ok","1"); }catch(e){} });
+document.getElementById("no").addEventListener("click", ()=>{ document.getElementById("nope").hidden = false; });
+</script>
+
+</body></html>
