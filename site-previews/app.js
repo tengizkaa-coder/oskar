@@ -2,10 +2,6 @@
   const cfg = window.SITE_CONFIG;
   const phone = 'tel:+74950959599';
   const labels = {whisky:'Виски',vodka:'Водка',gin:'Джин',cognac:'Коньяк',liqueur:'Ликёр',vermouth:'Вермут','white-wine':'Белое вино','red-wine':'Красное вино',sparkling:'Игристое',beer:'Пиво'};
-  const gate = document.getElementById('age-gate');
-  try { if (sessionStorage.getItem('preview-age-ok') === '1') gate.hidden = true; } catch (_) {}
-  document.getElementById('age-yes').addEventListener('click', () => { gate.hidden = true; try { sessionStorage.setItem('preview-age-ok', '1'); } catch (_) {} });
-  document.getElementById('age-no').addEventListener('click', () => { document.getElementById('age-denied').hidden = false; });
   const escapeHtml = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const products = document.getElementById('products');
   const filters = document.getElementById('filters');

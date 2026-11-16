@@ -146,16 +146,6 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var
 footer{border-top:1px solid var(--line);margin-top:48px;padding-block:24px 36px;color:var(--muted);font-size:13px;display:grid;gap:10px}
 footer .warn{font:800 clamp(24px,5vw,40px)/.95 var(--display);text-transform:uppercase;color:var(--fg);text-wrap:balance}
 
-/* age gate */
-.gate{position:fixed;inset:0;min-height:100dvh;overflow-y:auto;z-index:20;display:grid;place-items:center;background:var(--bg);
-  padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px))}
-.gate-box{max-width:420px;text-align:center;display:grid;gap:16px;justify-items:center}
-.gate-box .age{font:800 clamp(120px,34vw,200px)/.8 var(--display);color:var(--amber);
-  text-shadow:0 0 60px color-mix(in srgb,var(--amber) 45%,transparent)}
-.gate-box h2{font-size:34px}
-.gate-box p{color:var(--muted)}
-.gate-box .row2{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-
 @media (max-width:900px){
   .hero{grid-template-columns:1fr;padding-block:28px 24px;gap:20px}
   .hero-shelf{height:200px}
@@ -225,8 +215,6 @@ html[data-blocked] body::before{display:none}
   .contacts .actions .btn{width:100%}
   .map{min-height:280px}
   footer{margin-top:32px;padding-bottom:20px}
-  .gate-box .row2{display:grid;grid-template-columns:1fr;width:100%}
-  .gate-box .row2 .btn{width:100%;padding:16px}
   .callbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:6;gap:10px;
     padding:10px max(14px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));
     background:var(--bg);border-top:1px solid var(--line)}
@@ -257,19 +245,6 @@ html[data-blocked] body::before{display:none}
 </script>
 </head>
 <body>
-
-<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-t">
-  <div class="gate-box">
-    <div class="age">18+</div>
-    <h2 id="gate-t">Вам уже есть 18 лет?</h2>
-    <p>Сайт содержит информацию об алкогольной продукции и предназначен только для совершеннолетних.</p>
-    <div class="row2">
-      <button class="btn btn-main" id="yes">Да, мне есть 18</button>
-      <button class="btn btn-ghost" id="no">Нет</button>
-    </div>
-    <p id="nope" hidden>Извините, сайт доступен только с 18 лет.</p>
-  </div>
-</div>
 
 <header>
   <div class="wrap bar">
@@ -413,11 +388,6 @@ document.getElementById("shelves").innerHTML = Object.entries(CATS).map(([k,c])=
   </section>`;
 }).join("");
 
-// age gate
-const gate = document.getElementById("gate");
-try{ if(localStorage.getItem("age-ok")==="1") gate.hidden = true; }catch(e){}
-document.getElementById("yes").addEventListener("click", ()=>{ gate.hidden = true; try{ localStorage.setItem("age-ok","1"); }catch(e){} });
-document.getElementById("no").addEventListener("click", ()=>{ document.getElementById("nope").hidden = false; });
 </script>
 
 </body></html>
