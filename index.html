@@ -1,10 +1,15 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>АЛКО МСК — алкомаркет на Мещанской ул., 18, Москва</title>
 <meta name="description" content="АЛКО МСК: виски, водка, коньяк, вино, игристое и пиво. Выберите на сайте, позвоните +7 (495) 095-95-99, мы отложим. Москва, Мещанская ул., 18.">
 <meta name="robots" content="index,follow">
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@600;800&family=Golos+Text:wght@400;500;600&family=Cormorant:ital,wght@1,500;1,600&display=swap">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <style>
 /* Layout: барная полка с подсветкой. Каждая категория = полка, бутылки стоят на доске, под ними ценники без цены. */
 :root{
@@ -177,10 +182,9 @@ html[data-blocked] body::before{display:none}
 #blocked p{color:var(--muted)}
 
 
-/* фото товаров */
-.stand img{height:156px;width:76px;object-fit:contain;display:block;background:#fff;border-radius:4px;transition:transform .25s ease}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .stand img{background:transparent;mix-blend-mode:multiply}}
-:root[data-theme="light"] .stand img{background:transparent;mix-blend-mode:multiply}
+/* фото товаров: прозрачные PNG, бутылки стоят прямо на полке */
+.stand img{height:156px;width:76px;object-fit:contain;display:block;background:transparent;border-radius:4px;
+  filter:drop-shadow(0 4px 7px rgba(0,0,0,.3));transition:transform .25s ease}
 @media (prefers-reduced-motion:no-preference){.item:hover .stand img{transform:translateY(-6px)}}
 @media (max-width:680px){.stand img{height:140px;width:68px}}
 
@@ -256,6 +260,8 @@ html[data-blocked] body::before{display:none}
   });
 })();
 </script>
+</head>
+<body>
 
 <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-t">
   <div class="gate-box">
@@ -280,9 +286,9 @@ html[data-blocked] body::before{display:none}
 <main class="wrap">
   <section class="hero">
     <div>
-      <div class="status" id="status"><span class="dot"></span><span id="status-t">Круглосуточно, алкоголь с 08:00 до 23:00</span></div>
-      <h1>Выберите дома<em>заберите в магазине</em></h1>
-      <p class="lead">Смотрите полки онлайн и звоните. Мы назовём цену и отложим бутылку к вашему приходу. Покупка и оплата только в магазине.</p>
+      <div class="status open" id="status"><span class="dot"></span><span id="status-t">Открыто, работаем круглосуточно</span></div>
+      <h1>Выберите дома<em>и быстро доставим прямо к вам</em></h1>
+      <p class="lead">Смотрите полки онлайн и звоните. Мы назовём цену и оформим доставку прямо к вам домой</p>
       <div class="actions">
         <a class="btn btn-main" href="tel:+74950959599">Позвонить и отложить</a>
         <a class="btn btn-ghost" href="#contacts">Как добраться</a>
@@ -293,7 +299,7 @@ html[data-blocked] body::before{display:none}
 
   <div class="facts">
     <div class="fact"><span class="label">Адрес</span><strong>Москва, Мещанская ул., 18</strong></div>
-    <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно, алкоголь с 08:00 до 23:00</strong></div>
+    <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно</strong></div>
     <div class="fact"><span class="label">Телефон</span><strong>+7 (495) 095-95-99</strong></div>
   </div>
 
@@ -304,15 +310,15 @@ html[data-blocked] body::before{display:none}
     </div>
     <nav class="chips" id="chips" aria-label="Категории"></nav>
     <div id="shelves"></div>
-    <p class="note">Наличие и цены уточняйте по телефону. Рисунки условные и не повторяют вид товара, внешний вид упаковки может отличаться.</p>
+    <p class="note">Наличие и цены уточняйте по телефону.</p>
   </section>
 
   <section class="section">
     <div class="sec-head"><h2>Как забрать</h2></div>
     <ol class="steps">
       <li><h3>Выберите</h3><p>Пройдитесь по полкам и запомните, что хотите взять.</p></li>
-      <li><h3>Позвоните</h3><p>Назовём цену, проверим наличие и отложим на ваше имя.</p></li>
-      <li><h3>Приходите</h3><p>Заберите и оплатите в магазине. Возьмите с собой паспорт.</p></li>
+      <li><h3>Позвоните</h3><p>Назовём цену, проверим наличие и оформим заказ.</p></li>
+      <li><h3>Ожидайте</h3><p>Доставим вам прямо домой!</p></li>
     </ol>
   </section>
 
@@ -322,8 +328,8 @@ html[data-blocked] body::before{display:none}
       <div>
         <div class="c-list">
           <div class="fact"><span class="label">Адрес</span><strong>Москва, Мещанская ул., 18</strong></div>
-          <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно, алкоголь с 08:00 до 23:00</strong></div>
-          <div class="fact"><span class="label">Телефон и WhatsApp</span><strong>+7 (495) 095-95-99</strong></div>
+          <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно</strong></div>
+          <div class="fact"><span class="label">Телефон</span><strong>+7 (495) 095-95-99</strong></div>
         </div>
         <div class="actions">
           <a class="btn btn-main btn-sm" href="tel:+74950959599">Позвонить</a>
@@ -342,7 +348,7 @@ html[data-blocked] body::before{display:none}
 
 <footer class="wrap">
   <div class="warn">Чрезмерное употребление алкоголя вредит вашему здоровью</div>
-  <div>Дистанционная продажа алкогольной продукции не осуществляется. Сайт носит информационный характер. Покупка и оплата только в магазине по адресу Москва, Мещанская ул., 18, 129090. Продажа лицам младше 18 лет запрещена.</div>
+  <div>Круглосуточная доставка алкоголя по МСК</div>
 </footer>
 
 <script>
@@ -360,17 +366,16 @@ const CATS = {
   "beer":      {t:"Пиво",         s:{bw:26,bt:102,sh:28,nw:10,nt:64},glass:["--g-amber","--g-green","--g-clear"], go:.9, liq:"--q-beer", crown:true}
 };
 const ITEMS = [
-  ["whisky","Jameson","0,7 л","https://krasnoeibeloe.servicecdn.ru/upload/iblock/e70/9xos1ixcdi2tc2mer69lak0hptth3keu/jameson_07l_180920.jpg"],["whisky","Jack Daniel's","0,7 л","https://krasnoeibeloe.servicecdn.ru/upload/iblock/fea/g4crpwl3vy5oyyn9da7wz5a6hx3fj2p2/jack_190224_t.jpg"],["whisky","William Lawson's","0,5 л","https://krasnoeibeloe.servicecdn.ru/upload/iblock/368/pirq2oe3o9tg4az6090k9v1sp96m3j9r/william_lawsons_16032022.jpg"],
-  ["whisky","The Macallan 12 лет","0,7 л"],["whisky","Chivas Regal 12 лет","0,7 л","https://krasnoeibeloe.servicecdn.ru/upload/resize_cache/iblock/2e9/h2k47yj7r5djcch5d0clp2w0b2x154lo/200_356_1/chivas_12yo_100225_t.jpg"],
-  ["vodka","Beluga","0,7 л"],["vodka","Чистые Росы","0,7 л"],["vodka","Белая Берёзка","0,5 л"],["vodka","Русский Стандарт","0,5 л"],
-  ["gin","Barrister","0,7 л"],["gin","Gordon's","0,7 л"],
-  ["cognac","Арарат 5 звёзд","0,5 л"],["cognac","Старый Кёнигсберг","0,5 л"],["cognac","Старейшина","0,5 л"],
-  ["liqueur","Jägermeister","0,7 л"],["liqueur","Baileys","0,7 л"],
-  ["vermouth","Martini Bianco","0,7 л"],["vermouth","Martini Fiero","0,7 л"],
-  ["white-wine","Sauvignon Blanc","0,75 л"],["white-wine","Pinot Grigio","0,75 л"],["white-wine","Riesling","0,75 л"],
-  ["red-wine","Chianti","0,75 л"],["red-wine","Montepulciano d'Abruzzo","0,75 л"],["red-wine","Киндзмараули","0,75 л"],
-  ["sparkling","Prosecco","0,75 л"],["sparkling","Шампанское брют, Франция","0,75 л"],["sparkling","Asti","0,75 л"],
-  ["beer","Bud","0,5 л"],["beer","Stella Artois","0,5 л"],["beer","Corona Extra","0,355 л"]
+  ["whisky","Jameson","0,7 л","img/jameson.png"],["whisky","Jack Daniel's","0,7 л","img/jack-daniels.png"],["whisky","William Lawson's","0,5 л","img/william-lawsons.png"],["whisky","The Macallan 12 лет","0,7 л","img/macallan-12.png"],["whisky","Chivas Regal 12 лет","0,7 л","img/chivas-regal-12.png"],
+  ["vodka","Beluga","0,7 л","img/beluga.png"],["vodka","Чистые Росы","0,7 л","img/chistye-rosy.png"],["vodka","Белая Берёзка","0,5 л","img/belaya-berezka.png"],["vodka","Русский Стандарт","0,5 л","img/russkiy-standart.png"],
+  ["gin","Barrister","0,7 л","img/barrister.png"],["gin","Gordon's","0,7 л","img/gordons.png"],
+  ["cognac","Арарат 5 звёзд","0,5 л","img/ararat-5.png"],["cognac","Старый Кёнигсберг","0,5 л","img/stary-kenigsberg.png"],["cognac","Старейшина","0,5 л","img/stareyshina.png"],
+  ["liqueur","Jägermeister","0,7 л","img/jagermeister.png"],["liqueur","Baileys","0,7 л","img/baileys.png"],
+  ["vermouth","Martini Bianco","0,7 л","img/martini-bianco.png"],["vermouth","Martini Fiero","0,7 л","img/martini-fiero.png"],
+  ["white-wine","Sauvignon Blanc","0,75 л","img/sauvignon-blanc.png"],["white-wine","Pinot Grigio","0,75 л","img/pinot-grigio.png"],["white-wine","Riesling","0,75 л","img/riesling.png"],
+  ["red-wine","Chianti","0,75 л","img/chianti.png"],["red-wine","Montepulciano d'Abruzzo","0,75 л","img/montepulciano.png"],["red-wine","Киндзмараули","0,75 л","img/kindzmarauli.png"],
+  ["sparkling","Prosecco","0,75 л","img/prosecco.png"],["sparkling","Шампанское брют, Франция","0,75 л","img/brut-france.png"],["sparkling","Asti","0,75 л","img/asti.png"],
+  ["beer","Bud","0,5 л","img/bud.png"],["beer","Stella Artois","0,5 л","img/stella-artois.png"],["beer","Corona Extra","0,355 л","img/corona-extra.png"]
 ];
 
 let uid = 0;
@@ -416,14 +421,6 @@ document.getElementById("shelves").innerHTML = Object.entries(CATS).map(([k,c])=
     </li>`).join("")}</ul>
   </section>`;
 }).join("");
-
-// открыто или закрыто, по московскому времени
-try{
-  const h = parseInt(new Intl.DateTimeFormat("ru-RU",{hour:"numeric",hour12:false,timeZone:"Europe/Moscow"}).format(new Date()),10);
-  const open = h>=8 && h<23;
-  document.getElementById("status").classList.add("open");
-  document.getElementById("status-t").textContent = open ? "Открыто, работаем круглосуточно" : "Магазин открыт, алкоголь продаём с 08:00";
-}catch(e){}
 
 // age gate
 const gate = document.getElementById("gate");
