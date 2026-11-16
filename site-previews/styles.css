@@ -30,3 +30,4 @@ html[data-theme="7"] .product{border:2px solid var(--ink)}html[data-theme="7"] .
 html[data-theme="8"] .header{text-transform:uppercase;letter-spacing:.14em}html[data-theme="8"] .product-image{background:#c9c0b0}html[data-theme="8"] .product-info a{border:0;border-bottom:1px solid currentColor;border-radius:0;padding-left:0}
 html[data-theme="9"] .hero-bottom{background:var(--accent);color:var(--accent-ink);padding:20px}html[data-theme="9"] .product-image{margin:10px 10px 0;border-radius:16px}
 html[data-theme="10"] .brand{letter-spacing:.08em}html[data-theme="10"] .product-image{background:#e8d9e4}html[data-theme="10"] .visual-stamp{border:0;background:var(--card);color:var(--card-ink)}
+@media(max-width:800px){.brand{min-width:0;gap:8px}.brand>span{min-width:0}.brand small{font-size:9px}.header{gap:10px}.header-phone{flex:none}}
