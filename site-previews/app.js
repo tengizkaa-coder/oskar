@@ -8,7 +8,8 @@
   const search = document.getElementById('search');
   const empty = document.getElementById('empty');
   let active = 'all';
-  fetch('../site-previews/products.json').then(r => { if (!r.ok) throw new Error('Catalog unavailable'); return r.json(); }).then(items => {
+  Promise.resolve(window.SITE_PRODUCTS).then(items => {
+    if (!Array.isArray(items) || items.length === 0) throw new Error('Catalog unavailable');
     // Fixed per-design permutation keeps every product and remains stable on reload.
     const shuffled = [...items];
     let seed = cfg.number * 7919;
