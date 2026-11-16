@@ -42,3 +42,13 @@ create table if not exists public.bot_admin_usernames (
 
 alter table public.bot_admin_usernames enable row level security;
 revoke all on public.bot_admin_usernames from anon, authenticated;
+
+-- Кэш Telegram file_id для фото товаров (slug соответствует img/<slug>.png|jpg)
+create table if not exists public.product_photos (
+  slug         text primary key,
+  file_id      text not null,
+  updated_at   timestamptz not null default now()
+);
+
+alter table public.product_photos enable row level security;
+revoke all on public.product_photos from anon, authenticated;
