@@ -6,8 +6,10 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="192x192" href="img/site-icon.png">
 <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
-<title>АЛКО МСК — алкомаркет на Мещанской ул., 18, Москва</title>
-<meta name="description" content="АЛКО МСК: виски, водка, коньяк, вино, игристое и пиво. Выберите на сайте, позвоните +7 (495) 095-95-99, мы отложим. Москва, Мещанская ул., 18.">
+<title>Доставка алкоголя в Москве круглосуточно — АЛКО МСК</title>
+<meta name="description" content="Доставка алкоголя в Москве круглосуточно: виски, водка, коньяк, вино и другие напитки. Выберите товары и позвоните для уточнения цены и оформления заказа.">
+<link rel="canonical" href="https://alcohub-msk.com/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"АЛКО МСК","url":"https://alcohub-msk.com/"}</script>
 <meta name="robots" content="index,follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,9 +85,9 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var
   background:
     linear-gradient(var(--board),var(--board-edge)) bottom/100% 10px no-repeat,
     radial-gradient(ellipse 62% 78% at 50% 100%,color-mix(in srgb,var(--amber) var(--glow),transparent),transparent 72%)}
-.hero-shelf svg{height:250px;width:auto}
-.hero-shelf svg:nth-child(2){height:226px}
-.hero-shelf svg:nth-child(4){height:150px}
+.hero-shelf img{height:250px;min-width:0;max-width:19%;width:auto;object-fit:contain;object-position:bottom;filter:drop-shadow(0 4px 7px rgba(0,0,0,.25))}
+.hero-shelf img:nth-child(2){height:226px}
+.hero-shelf img:nth-child(4){height:150px}
 .facts{display:grid;grid-template-columns:repeat(3,1fr);border-block:1px solid var(--line)}
 .fact{padding:16px 18px 16px 0;display:grid;gap:4px;min-width:0}
 .fact+.fact{padding-left:18px;border-left:1px solid var(--line)}
@@ -204,7 +206,7 @@ html[data-blocked] body::before{display:none}
   .hero .actions{display:grid;grid-template-columns:1fr}
   .hero .actions .btn{width:100%;padding:15px 18px}
   .hero-shelf{height:170px}
-  .hero-shelf svg{height:142px}.hero-shelf svg:nth-child(2){height:130px}.hero-shelf svg:nth-child(4){height:88px}
+  .hero-shelf img{height:142px}.hero-shelf img:nth-child(2){height:130px}.hero-shelf img:nth-child(4){height:88px}
   .fact strong{font-size:16px}
   .facts .fact:first-child{padding-top:14px}
   .section{padding-block:32px 4px}
@@ -280,20 +282,20 @@ html[data-blocked] body::before{display:none}
   <section class="hero">
     <div>
       <div class="status open" id="status"><span class="dot"></span><span id="status-t">Открыто, работаем круглосуточно</span></div>
-      <h1>Выберите дома<em>и быстро доставим прямо к вам</em></h1>
+      <h1>Доставка алкоголя<em>по Москве круглосуточно</em></h1>
       <p class="lead">Смотрите полки онлайн и звоните. Мы назовём цену и оформим доставку прямо к вам домой</p>
       <div class="actions">
         <a class="btn btn-main" href="tel:+74950959599">Заказать по телефону</a>
       </div>
     </div>
-    <div class="hero-shelf" id="hero-shelf" aria-hidden="true"></div>
+    <div class="hero-shelf" aria-hidden="true">
+      <img src="img/jameson.png" alt="">
+      <img src="img/jack-daniels.png" alt="">
+      <img src="img/beluga.png" alt="">
+      <img src="img/corona-extra.png" alt="">
+      <img src="img/ararat-5.png" alt="">
+    </div>
   </section>
-
-  <div class="facts">
-    <div class="fact"><span class="label">Адрес</span><strong>Москва, Мещанская ул., 18</strong></div>
-    <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно</strong></div>
-    <div class="fact"><span class="label">Телефон</span><strong>+7 (495) 095-95-99</strong></div>
-  </div>
 
   <section class="section" id="catalog">
     <div class="sec-head">
@@ -306,7 +308,7 @@ html[data-blocked] body::before{display:none}
   </section>
 
   <section class="section">
-    <div class="sec-head"><h2>Как забрать</h2></div>
+    <div class="sec-head"><h2>Как заказать доставку</h2></div>
     <ol class="steps">
       <li><h3>Выберите</h3><p>Пройдитесь по полкам и запомните, что хотите взять.</p></li>
       <li><h3>Позвоните</h3><p>Назовём цену, проверим наличие и оформим заказ.</p></li>
@@ -398,7 +400,6 @@ function bottle(key, i){
 function fb(el,k,i){el.parentNode.innerHTML=bottle(k,i)}
 function plural(n){const a=n%10,b=n%100;return n+" "+(a===1&&b!==11?"позиция":a>=2&&a<=4&&(b<10||b>=20)?"позиции":"позиций")}
 
-document.getElementById("hero-shelf").innerHTML = bottle("whisky",0)+bottle("red-wine",1)+bottle("sparkling",0)+bottle("beer",0)+bottle("cognac",1);
 document.getElementById("count").textContent = plural(ITEMS.length)+" в "+Object.keys(CATS).length+" категориях. Ассортимент обновляется, спрашивайте по телефону.";
 document.getElementById("chips").innerHTML = Object.entries(CATS).map(([k,c])=>`<a class="chip" href="#${k}">${c.t}</a>`).join("");
 document.getElementById("shelves").innerHTML = Object.entries(CATS).map(([k,c])=>{
