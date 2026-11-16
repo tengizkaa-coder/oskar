@@ -114,8 +114,9 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var
 .tag::before{content:"";position:absolute;left:50%;top:-12px;width:2px;height:12px;background:var(--tag-line)}
 .tag b{font-weight:600}
 .tag span{color:var(--tag-muted);font-variant-numeric:tabular-nums}
-.tag i{font-style:normal;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tag-muted);
-  border-top:1px dashed var(--tag-line);padding-top:5px;margin-top:auto}
+.tag .order{display:flex;align-items:center;justify-content:center;min-height:44px;margin-top:auto;
+  padding:8px 6px;background:var(--amber);color:var(--amber-fg);border-radius:4px;
+  font:600 13px var(--body);text-align:center;text-decoration:none}
 .note{color:var(--muted);font-size:14px;margin-top:22px}
 
 /* steps */
@@ -403,7 +404,7 @@ document.getElementById("shelves").innerHTML = Object.entries(CATS).map(([k,c])=
     <div class="shelf-head"><h3>${c.t}<small>${plural(items.length)}</small></h3></div>
     <ul class="row">${items.map((x,i)=>`<li class="item">
       <div class="stand">${x[3]?`<img src="${x[3]}" alt="${x[1]}, ${x[2]}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="fb(this,'${k}',${i})">`:bottle(k,i)}</div>
-      <div class="tag"><b>${x[1]}</b><span>${x[2]}</span><i>Цена по звонку</i></div>
+      <div class="tag"><b>${x[1]}</b><span>${x[2]}</span><a class="order" href="tel:+74950959599" aria-label="Заказать ${x[1]} по телефону">Заказать</a></div>
     </li>`).join("")}</ul>
   </section>`;
 }).join("");
