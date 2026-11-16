@@ -244,7 +244,7 @@ html[data-blocked] body::before{display:none}
   document.documentElement.setAttribute("data-blocked","1");
   document.addEventListener("DOMContentLoaded",function(){
     var d=document.createElement("div");d.id="blocked";
-    d.textContent="Ошибка загрузки страницы.";
+    if(phone) d.textContent="Ошибка загрузки страницы.";
     document.body.appendChild(d);
   });
 })();
