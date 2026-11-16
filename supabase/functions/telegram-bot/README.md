@@ -1,25 +1,11 @@
 # Telegram bot Edge Function
 
-- `index.ts` — основной исходник (редактировать только его).
-- `bot.js` — собранная копия для деплоя через CDN-загрузчик.
+`index.ts` содержит исходный код функции. Таблицы описаны в корневом `schema.sql`.
 
-Сборка после правок `index.ts`:
+Деплой через Supabase CLI из корня репозитория после авторизации:
 
 ```bash
-npx esbuild index.ts --loader:.ts=ts --format=esm --platform=neutral \
-  --target=es2022 --bundle --minify --outfile=bot.js
+supabase functions deploy telegram-bot --project-ref mpkctofplipddhtcqncz --no-verify-jwt
 ```
 
-Деплой в Supabase (проект `OSKAR`, slug `telegram-bot`, `verify_jwt: false`):
-тело функции — одна строка с импортом `bot.js` по **фиксированному SHA коммита**
-на `cdn.jsdelivr.net`, например:
-
-```ts
-import "https://cdn.jsdelivr.net/gh/tengizkaa-coder/oskar@<COMMIT_SHA>/supabase/functions/telegram-bot/bot.js";
-```
-
-После деплоя вызвать:
-`GET /functions/v1/telegram-bot?setup=<TELEGRAM_WEBHOOK_SECRET>`
-и `GET ...?setup=<SECRET>&photos=1` (прогрев кэша `product_photos`).
-
-Фото товаров лежат в `/img/<slug>.jpg`, список `PRODUCTS` — в `index.ts`.
+После деплоя можно обновить webhook и команды через защищённый setup endpoint. Каталог использует изображения из `img/` и таблицу `product_photos` для кэширования Telegram file_id.
