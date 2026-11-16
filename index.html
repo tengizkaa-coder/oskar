@@ -174,13 +174,10 @@ footer .warn{font:800 clamp(24px,5vw,40px)/.95 var(--display);text-transform:upp
 
 
 /* доступ: только телефон + переход из поиска */
+html[data-blocked],html[data-blocked] body{background:#fff;padding:0}
 html[data-blocked] body>*:not(#blocked){display:none!important}
 html[data-blocked] body::before{display:none}
-#blocked{min-height:100vh;min-height:100dvh;display:grid;place-items:center;text-align:center;padding:24px;background:var(--bg);color:var(--fg)}
-#blocked div{max-width:420px;display:grid;gap:14px;justify-items:center}
-#blocked b{font:800 56px/.9 var(--display);text-transform:uppercase;letter-spacing:.03em}
-#blocked b i{font:italic 600 .8em var(--serif);text-transform:none;color:var(--accent-text)}
-#blocked p{color:var(--muted)}
+#blocked{min-height:100vh;min-height:100dvh;display:grid;place-items:center;text-align:center;padding:24px;background:#fff;color:#555;font:16px system-ui,sans-serif}
 
 
 /* фото товаров: прозрачные PNG, бутылки стоят прямо на полке */
@@ -247,7 +244,7 @@ html[data-blocked] body::before{display:none}
   document.documentElement.setAttribute("data-blocked","1");
   document.addEventListener("DOMContentLoaded",function(){
     var d=document.createElement("div");d.id="blocked";
-    d.innerHTML='<div><b>Алко <i>мск</i></b><p>Сайт открывается только на телефоне, при переходе из поиска Google или Яндекса.</p></div>';
+    d.textContent="Ошибка загрузки страницы.";
     document.body.appendChild(d);
   });
 })();
