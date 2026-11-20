@@ -43,7 +43,11 @@ try {
     if (await adContainer.count()) continue;
     if (href && targetFromResult(href, page.url())) { target = link; break; }
   }
-  if (!target) throw new Error(`Результат для ${TARGET_HOST} на первой странице не найден; других сайтов не открываем.`);
+  if (!target) {
+    const error = new Error(`Результат для ${TARGET_HOST} на первой странице не найден; других сайтов не открываем.`);
+    error.code = 'NOT_FOUND';
+    throw error;
+  }
   await target.click();
   await page.waitForLoadState('domcontentloaded');
   const destination = new URL(page.url());
@@ -52,9 +56,14 @@ try {
   console.log(`Открыт ${destination.origin}${destination.pathname}`);
   // Only same-page category anchors; no call, form, purchase or external navigation.
   const links = page.locator('a.chip[href^="#"]');
-  const count = Math.min(await links.count(), 3);
+  const available = await links.count();
+  const count = Math.min(available, 3);
+  const scenarioArg = args.indexOf('--scenario');
+  const rawScenario = scenarioArg < 0 ? '0' : args[scenarioArg + 1];
+  if (!/^\d+$/.test(rawScenario || '')) throw new Error('Номер сценария должен быть неотрицательным целым числом.');
+  const offset = Number(rawScenario) % Math.max(available, 1);
   for (let i = 0; i < count; i++) {
-    const link = links.nth(i);
+    const link = links.nth((offset + i) % available);
     await link.scrollIntoViewIfNeeded();
     await link.click();
     console.log(`Открыт раздел: ${await link.innerText()}`);
@@ -63,7 +72,7 @@ try {
   await context.close();
 } catch (error) {
   console.error(`Остановлено: ${error.message}`);
-  process.exitCode = 1;
+  process.exitCode = error.code === 'NOT_FOUND' ? 2 : 1;
 } finally {
   if (browser) await browser.close();
 }

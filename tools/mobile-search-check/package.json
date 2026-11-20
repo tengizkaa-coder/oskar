@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "node --test",
-    "start": "node run.mjs"
+    "start": "node run.mjs",
+    "batch": "node batch.mjs"
   },
   "dependencies": {
     "playwright": "1.56.1"
