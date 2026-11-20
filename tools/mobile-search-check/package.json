@@ -1,0 +1,13 @@
+{
+  "name": "mobile-search-check",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "start": "node run.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.56.1"
+  }
+}
