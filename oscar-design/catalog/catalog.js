@@ -28,10 +28,15 @@ const items = document.querySelector('#cart-items');
 const empty = document.querySelector('#cart-empty');
 const checkout = document.querySelector('#checkout');
 const count = document.querySelector('#cart-count');
+const floatButton = document.querySelector('#cart-float');
+const floatCount = document.querySelector('#cart-float-count');
 
 function renderCart() {
   const entries = Object.entries(basket);
-  count.textContent = String(entries.reduce((sum, [, quantity]) => sum + quantity, 0));
+  const total = entries.reduce((sum, [, quantity]) => sum + quantity, 0);
+  count.textContent = String(total);
+  floatCount.textContent = String(total);
+  floatButton.hidden = total === 0;
   items.replaceChildren();
   empty.hidden = entries.length !== 0;
   checkout.hidden = entries.length === 0;
@@ -74,7 +79,17 @@ for (const button of productButtons) {
     button.resetTimer = setTimeout(() => { button.textContent = 'В корзину'; }, 1200);
   });
 }
-document.querySelector('#open-cart').addEventListener('click', () => dialog.showModal());
-document.querySelector('#close-cart').addEventListener('click', () => dialog.close());
+function openCart() {
+  if (dialog.open) return;
+  if (typeof dialog.showModal === 'function') dialog.showModal();
+  else dialog.setAttribute('open', '');
+}
+function closeCart() {
+  if (typeof dialog.close === 'function') dialog.close();
+  else dialog.removeAttribute('open');
+}
+document.querySelector('#open-cart').addEventListener('click', openCart);
+floatButton.addEventListener('click', openCart);
+document.querySelector('#close-cart').addEventListener('click', closeCart);
 renderCart();
-if (location.hash === '#cart') dialog.showModal();
+if (location.hash === '#cart') openCart();
