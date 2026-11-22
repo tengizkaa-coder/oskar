@@ -1,6 +1,6 @@
 import { chromium, devices } from 'playwright';
 import { TARGET_HOST, targetFromResult, validateQuery } from './logic.mjs';
-import { categoryPath, randomBetween } from './scenarios.mjs';
+import { categoryPath, deviceForScenario, randomBetween } from './scenarios.mjs';
 
 const args = process.argv.slice(2);
 if (!args.includes('--live')) {
@@ -21,8 +21,12 @@ if (!/^\d+$/.test(rawScenario || '') || !Number.isSafeInteger(scenario)) {
 
 let browser;
 try {
+  const deviceName = deviceForScenario(scenario);
+  const device = devices[deviceName];
+  if (!device || device.defaultBrowserType !== 'chromium' || !device.hasTouch || !device.isMobile) throw new Error('Профиль мобильного браузера недоступен.');
   browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ ...devices['Pixel 7'], locale: 'ru-RU' });
+  const context = await browser.newContext({ ...device, locale: 'ru-RU', timezoneId: 'Europe/Moscow' });
+  console.log(`Эмуляция устройства: ${deviceName}`);
   const page = await context.newPage();
   page.setDefaultTimeout(15000);
   // Stop when Google asks for verification; never solve or bypass a challenge.
@@ -38,7 +42,7 @@ try {
   const search = page.locator('textarea[name="q"], input[name="q"]').first();
   if (!(await search.count())) throw new Error('Поле поиска Google не найдено (возможно, требуется согласие).');
   await page.waitForTimeout(randomBetween(1200, 3000));
-  await search.click();
+  await search.tap();
   await search.pressSequentially(query, { delay: randomBetween(60, 160) });
   await page.waitForTimeout(randomBetween(600, 1800));
   await search.press('Enter');
@@ -61,13 +65,15 @@ try {
   }
   await page.waitForTimeout(randomBetween(1500, 4000));
   await assertNoChallenge();
-  await target.click();
+  await target.tap();
   await page.waitForLoadState('domcontentloaded');
   const destination = new URL(page.url());
   if (destination.protocol !== 'https:' || destination.hostname !== TARGET_HOST) throw new Error('Переход ушёл на неожиданный адрес; остановка.');
   if (await page.locator('html[data-blocked]').count()) throw new Error('Сайт заблокировал этот переход; возможно, поисковик не передал referrer.');
   console.log(`Открыт ${destination.origin}${destination.pathname}`);
   // Only same-page category anchors; no call, form, purchase or external navigation.
+  await page.waitForTimeout(randomBetween(1800, 4000));
+  await page.evaluate(distance => window.scrollBy({ top: distance, behavior: 'smooth' }), randomBetween(180, 420));
   const links = page.locator('a.chip[href^="#"]');
   const available = await links.count();
   const path = categoryPath(available, scenario);
@@ -75,8 +81,10 @@ try {
     const link = links.nth(index);
     await page.waitForTimeout(randomBetween(2500, 6000));
     await link.scrollIntoViewIfNeeded();
-    await link.click();
+    await link.tap();
     console.log(`Открыт раздел: ${await link.innerText()}`);
+    await page.waitForTimeout(randomBetween(2000, 5000));
+    await page.evaluate(distance => window.scrollBy({ top: distance, behavior: 'smooth' }), randomBetween(100, 320));
   }
   if (!path.length) console.log('Категории не найдены на открытой странице.');
   await context.close();

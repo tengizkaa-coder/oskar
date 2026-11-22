@@ -1,6 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { categoryPath, randomBetween } from './scenarios.mjs';
+import { DEVICE_PROFILES, categoryPath, deviceForScenario, randomBetween } from './scenarios.mjs';
+import { devices } from 'playwright';
+
+test('scenario chooses coherent Chromium touch device presets', () => {
+  assert.equal(new Set(DEVICE_PROFILES).size, 3);
+  for (let n = 0; n < 9; n++) {
+    const preset = devices[deviceForScenario(n)];
+    assert(preset && preset.isMobile && preset.hasTouch);
+    assert.equal(preset.defaultBrowserType, 'chromium');
+  }
+  assert.throws(() => deviceForScenario(-1));
+});
 
 test('delays stay within bounds, endpoints included', () => {
   assert.equal(randomBetween(30, 90, () => 0), 30);

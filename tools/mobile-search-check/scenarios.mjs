@@ -1,3 +1,12 @@
+// Standard Playwright descriptors: viewport, user agent and touch are kept together.
+// Emulation is still detectable automation, not a physical device.
+export const DEVICE_PROFILES = Object.freeze(['Pixel 5', 'Pixel 7', 'Galaxy S9+']);
+
+export function deviceForScenario(scenario) {
+  if (!Number.isSafeInteger(scenario) || scenario < 0) throw new RangeError('Invalid scenario');
+  return DEVICE_PROFILES[scenario % DEVICE_PROFILES.length];
+}
+
 // Small bounded variations in a test journey; not a CAPTCHA or bot-detection bypass.
 export function randomBetween(min, max, random = Math.random) {
   if (!Number.isSafeInteger(min) || !Number.isSafeInteger(max) || min < 0 || max < min) throw new RangeError('Invalid range');
