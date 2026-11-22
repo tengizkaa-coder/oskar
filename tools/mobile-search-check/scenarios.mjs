@@ -1,6 +1,6 @@
 // Standard Playwright descriptors: viewport, user agent and touch are kept together.
 // Emulation is still detectable automation, not a physical device.
-export const DEVICE_PROFILES = Object.freeze(['Pixel 5', 'Pixel 7', 'Galaxy S9+', 'iPhone 13', 'iPhone 15', 'iPhone 15 Pro']);
+export const DEVICE_PROFILES = Object.freeze(['Pixel 5', 'Pixel 7', 'Galaxy S9+', 'iPhone 13', 'iPhone 15', 'iPhone 15 Pro', 'iPhone 17', 'iPhone 17 Pro', 'iPhone 17 Pro Max']);
 
 export function deviceForScenario(scenario) {
   if (!Number.isSafeInteger(scenario) || scenario < 0) throw new RangeError('Invalid scenario');

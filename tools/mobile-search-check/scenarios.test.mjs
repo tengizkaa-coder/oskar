@@ -4,8 +4,8 @@ import { DEVICE_PROFILES, categoryPath, deviceForScenario, randomBetween } from 
 import { devices } from 'playwright';
 
 test('scenario chooses mobile Chromium and WebKit touch device presets', () => {
-  assert.equal(new Set(DEVICE_PROFILES).size, 6);
-  for (let n = 0; n < 12; n++) {
+  assert.equal(new Set(DEVICE_PROFILES).size, 9);
+  for (let n = 0; n < DEVICE_PROFILES.length * 2; n++) {
     const name = deviceForScenario(n);
     const preset = devices[name];
     assert(preset && preset.isMobile && preset.hasTouch);
