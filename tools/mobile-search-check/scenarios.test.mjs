@@ -3,12 +3,13 @@ import assert from 'node:assert/strict';
 import { DEVICE_PROFILES, categoryPath, deviceForScenario, randomBetween } from './scenarios.mjs';
 import { devices } from 'playwright';
 
-test('scenario chooses coherent Chromium touch device presets', () => {
-  assert.equal(new Set(DEVICE_PROFILES).size, 3);
-  for (let n = 0; n < 9; n++) {
-    const preset = devices[deviceForScenario(n)];
+test('scenario chooses mobile Chromium and WebKit touch device presets', () => {
+  assert.equal(new Set(DEVICE_PROFILES).size, 6);
+  for (let n = 0; n < 12; n++) {
+    const name = deviceForScenario(n);
+    const preset = devices[name];
     assert(preset && preset.isMobile && preset.hasTouch);
-    assert.equal(preset.defaultBrowserType, 'chromium');
+    assert.equal(preset.defaultBrowserType, name.startsWith('iPhone') ? 'webkit' : 'chromium');
   }
   assert.throws(() => deviceForScenario(-1));
 });

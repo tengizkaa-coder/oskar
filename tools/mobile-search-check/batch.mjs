@@ -3,7 +3,7 @@ import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
 import { validateQuery } from './logic.mjs';
-import { randomBetween } from './scenarios.mjs';
+import { deviceForScenario, randomBetween } from './scenarios.mjs';
 
 const args = process.argv.slice(2);
 const countPosition = args.indexOf('--count');
@@ -26,7 +26,7 @@ try {
 
 console.log(`${live ? 'РЕАЛЬНЫЙ ЗАПУСК' : 'ПЛАН, без запросов в Google'}: ${count} отдельных сессий, последовательно.`);
 if (!live) {
-  for (let i = 0; i < count; i++) console.log(`${i + 1}. ${queries[i % queries.length]} — сценарий ${i + 1}`);
+  for (let i = 0; i < count; i++) console.log(`${i + 1}. ${queries[i % queries.length]} — сценарий ${i}, ${deviceForScenario(i)}`);
   process.exit(0);
 }
 let successes = 0, missing = 0;

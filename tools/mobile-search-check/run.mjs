@@ -1,4 +1,4 @@
-import { chromium, devices } from 'playwright';
+import { chromium, webkit, devices } from 'playwright';
 import { TARGET_HOST, targetFromResult, validateQuery } from './logic.mjs';
 import { categoryPath, deviceForScenario, randomBetween } from './scenarios.mjs';
 
@@ -23,10 +23,12 @@ let browser;
 try {
   const deviceName = deviceForScenario(scenario);
   const device = devices[deviceName];
-  if (!device || device.defaultBrowserType !== 'chromium' || !device.hasTouch || !device.isMobile) throw new Error('Профиль мобильного браузера недоступен.');
-  browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ ...device, locale: 'ru-RU', timezoneId: 'Europe/Moscow' });
-  console.log(`Эмуляция устройства: ${deviceName}`);
+  if (!device || !device.hasTouch || !device.isMobile || !['chromium', 'webkit'].includes(device.defaultBrowserType)) throw new Error('Профиль мобильного браузера недоступен.');
+  const { defaultBrowserType, ...contextOptions } = device;
+  const engine = defaultBrowserType === 'webkit' ? webkit : chromium;
+  browser = await engine.launch({ headless: true });
+  const context = await browser.newContext({ ...contextOptions, locale: 'ru-RU', timezoneId: 'Europe/Moscow' });
+  console.log(`Эмуляция устройства: ${deviceName} (${defaultBrowserType})`);
   const page = await context.newPage();
   page.setDefaultTimeout(15000);
   // Stop when Google asks for verification; never solve or bypass a challenge.
