@@ -3,6 +3,7 @@ import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
 import { validateQuery } from './logic.mjs';
+import { randomBetween } from './scenarios.mjs';
 
 const args = process.argv.slice(2);
 const countPosition = args.indexOf('--count');
@@ -40,6 +41,10 @@ for (let i = 0; i < count; i++) {
     break;
   }
   if (result.code === 0) successes++; else missing++;
-  if (i + 1 < count) await delay(30000);
+  if (i + 1 < count) {
+    const waitMs = randomBetween(30, 90) * 1000;
+    console.log(`Пауза перед следующей сессией: ${waitMs / 1000} сек.`);
+    await delay(waitMs);
+  }
 }
 console.log(`Итого: успешных переходов ${successes}, не найдено на первой странице ${missing}.`);

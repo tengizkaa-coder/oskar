@@ -1,5 +1,6 @@
 import { chromium, devices } from 'playwright';
 import { TARGET_HOST, targetFromResult, validateQuery } from './logic.mjs';
+import { categoryPath, randomBetween } from './scenarios.mjs';
 
 const args = process.argv.slice(2);
 if (!args.includes('--live')) {
@@ -10,6 +11,13 @@ const pos = args.indexOf('--query');
 let query;
 try { query = validateQuery(pos < 0 ? '' : args[pos + 1]); }
 catch (error) { console.error(error.message); process.exit(1); }
+const scenarioArg = args.indexOf('--scenario');
+const rawScenario = scenarioArg < 0 ? '0' : args[scenarioArg + 1];
+const scenario = Number(rawScenario);
+if (!/^\d+$/.test(rawScenario || '') || !Number.isSafeInteger(scenario)) {
+  console.error('Номер сценария должен быть неотрицательным целым числом.');
+  process.exit(1);
+}
 
 let browser;
 try {
@@ -29,7 +37,10 @@ try {
   await assertNoChallenge();
   const search = page.locator('textarea[name="q"], input[name="q"]').first();
   if (!(await search.count())) throw new Error('Поле поиска Google не найдено (возможно, требуется согласие).');
-  await search.fill(query);
+  await page.waitForTimeout(randomBetween(1200, 3000));
+  await search.click();
+  await search.pressSequentially(query, { delay: randomBetween(60, 160) });
+  await page.waitForTimeout(randomBetween(600, 1800));
   await search.press('Enter');
   await page.waitForLoadState('domcontentloaded');
   await assertNoChallenge();
@@ -48,6 +59,8 @@ try {
     error.code = 'NOT_FOUND';
     throw error;
   }
+  await page.waitForTimeout(randomBetween(1500, 4000));
+  await assertNoChallenge();
   await target.click();
   await page.waitForLoadState('domcontentloaded');
   const destination = new URL(page.url());
@@ -57,18 +70,15 @@ try {
   // Only same-page category anchors; no call, form, purchase or external navigation.
   const links = page.locator('a.chip[href^="#"]');
   const available = await links.count();
-  const count = Math.min(available, 3);
-  const scenarioArg = args.indexOf('--scenario');
-  const rawScenario = scenarioArg < 0 ? '0' : args[scenarioArg + 1];
-  if (!/^\d+$/.test(rawScenario || '')) throw new Error('Номер сценария должен быть неотрицательным целым числом.');
-  const offset = Number(rawScenario) % Math.max(available, 1);
-  for (let i = 0; i < count; i++) {
-    const link = links.nth((offset + i) % available);
+  const path = categoryPath(available, scenario);
+  for (const index of path) {
+    const link = links.nth(index);
+    await page.waitForTimeout(randomBetween(2500, 6000));
     await link.scrollIntoViewIfNeeded();
     await link.click();
     console.log(`Открыт раздел: ${await link.innerText()}`);
   }
-  if (!count) console.log('Категории не найдены на открытой странице.');
+  if (!path.length) console.log('Категории не найдены на открытой странице.');
   await context.close();
 } catch (error) {
   console.error(`Остановлено: ${error.message}`);
