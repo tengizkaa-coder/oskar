@@ -1,4 +1,5 @@
 import { chromium, webkit, devices } from 'playwright';
+import { createInterface } from 'node:readline/promises';
 import { TARGET_HOST, targetFromResult, validateQuery } from './logic.mjs';
 import { categoryPath, deviceForScenario, randomBetween } from './scenarios.mjs';
 
@@ -19,6 +20,13 @@ if (!/^\d+$/.test(rawScenario || '') || !Number.isSafeInteger(scenario)) {
   process.exit(1);
 }
 
+const headed = args.includes('--headed');
+const manualChallenge = args.includes('--manual-challenge');
+if (manualChallenge && (!headed || !process.stdin.isTTY)) {
+  console.error('Для ручной проверки нужны --headed и интерактивный терминал.');
+  process.exit(1);
+}
+
 let browser;
 try {
   const deviceName = deviceForScenario(scenario);
@@ -26,13 +34,14 @@ try {
   if (!device || !device.hasTouch || !device.isMobile || !['chromium', 'webkit'].includes(device.defaultBrowserType)) throw new Error('Профиль мобильного браузера недоступен.');
   const { defaultBrowserType, ...contextOptions } = device;
   const engine = defaultBrowserType === 'webkit' ? webkit : chromium;
-  browser = await engine.launch({ headless: true });
+  const executablePath = headed && defaultBrowserType === 'chromium' ? process.env.TENAKRYT_CHROMIUM_PATH : undefined;
+  browser = await engine.launch({ headless: !headed, ...(executablePath ? { executablePath } : {}), ...(headed && defaultBrowserType === 'chromium' ? { chromiumSandbox: true } : {}) });
   const context = await browser.newContext({ ...contextOptions, locale: 'ru-RU', timezoneId: 'Europe/Moscow' });
   console.log(`Эмуляция устройства: ${deviceName} (${defaultBrowserType})`);
   const page = await context.newPage();
   page.setDefaultTimeout(15000);
-  // Stop when Google asks for verification; never solve or bypass a challenge.
-  async function assertNoChallenge() {
+  // Pause only for a human when explicitly requested; do not solve challenges automatically.
+  async function assertNoChallenge(allowManual = true) {
     const url = page.url();
     if (url.includes('/sorry/') || await page.locator('iframe[src*="recaptcha"], #captcha-form, input[name="captcha"]').count()) {
       if (args.includes('--diagnose-challenge')) {
@@ -43,7 +52,18 @@ try {
         console.log(`Текст проверки (может содержать IP):\n${text.slice(0, 1500)}`);
         console.log(`iframe reCAPTCHA: ${await page.locator('iframe[src*="recaptcha"]').count()}`);
       }
-      throw new Error('Google запросил проверку. Сценарий остановлен; CAPTCHA не обходится.');
+      if (manualChallenge && allowManual) {
+        console.log('Google запросил проверку. Пройдите её вручную в открытом браузере, затем нажмите Enter здесь. Ожидание до 3 минут.');
+        const input = createInterface({ input: process.stdin, output: process.stdout });
+        try { await input.question('После проверки нажмите Enter: ', { signal: AbortSignal.timeout(180000) }); }
+        catch { throw new Error('Ожидание ручной проверки завершилось.'); }
+        finally { input.close(); }
+        await page.waitForLoadState('domcontentloaded');
+        const current = new URL(page.url());
+        if (current.protocol !== 'https:' || current.hostname !== 'www.google.com') throw new Error('Неожиданный адрес после проверки. Сценарий остановлен.');
+        return assertNoChallenge(false);
+      }
+      throw new Error('Google запросил проверку. Сценарий остановлен; CAPTCHA автоматически не решается.');
     }
     if (new URL(url).hostname === 'consent.google.com') throw new Error('Google запросил согласие. Сценарий остановлен.');
   }
