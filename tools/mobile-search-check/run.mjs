@@ -35,6 +35,14 @@ try {
   async function assertNoChallenge() {
     const url = page.url();
     if (url.includes('/sorry/') || await page.locator('iframe[src*="recaptcha"], #captcha-form, input[name="captcha"]').count()) {
+      if (args.includes('--diagnose-challenge')) {
+        const current = new URL(url);
+        console.log(`Страница проверки: ${current.origin}${current.pathname}`);
+        console.log(`Заголовок: ${await page.title()}`);
+        const text = await page.locator('body').innerText().catch(() => 'Текст страницы недоступен');
+        console.log(`Текст проверки (может содержать IP):\n${text.slice(0, 1500)}`);
+        console.log(`iframe reCAPTCHA: ${await page.locator('iframe[src*="recaptcha"]').count()}`);
+      }
       throw new Error('Google запросил проверку. Сценарий остановлен; CAPTCHA не обходится.');
     }
     if (new URL(url).hostname === 'consent.google.com') throw new Error('Google запросил согласие. Сценарий остановлен.');
