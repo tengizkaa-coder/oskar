@@ -229,12 +229,14 @@ html[data-blocked] body::before{display:none}
   var ua=navigator.userAgent||"";
   var bot=/Googlebot|Google-InspectionTool|GoogleOther|AdsBot-Google|YandexBot|YandexMobileBot|YandexAccessibilityBot|YandexMetrika|YandexWebmaster|YandexImages/i.test(ua);
   var phone=/Android.+Mobile|iPhone|iPod|Windows Phone|Mobile Safari|Mobile/i.test(ua) && !/iPad|Tablet/i.test(ua);
-  var host="";
-  try{host=new URL(document.referrer).hostname.toLowerCase()}catch(e){}
+  var host="", sameSite=false, authorized=false;
+  try{var ref=new URL(document.referrer);host=ref.hostname.toLowerCase();sameSite=ref.origin===location.origin}catch(e){}
   var search=/(^|\.)(google\.[a-z.]+|yandex\.[a-z.]+|ya\.ru)$/.test(host)||/^(www\.)?(maps\.google|yandex)\./.test(host);
-  // Исключение только для самой страницы предпросмотра; оно не сохраняется.
+  // Исключение предпросмотра не сохраняется. Внутренние переходы доступны только после поискового входа в этой вкладке.
   var preview=/\/test(\.html|\/(index\.html)?)?$/i.test(location.pathname);
-  if(preview||bot||(phone&&search)) return;
+  try{authorized=sessionStorage.getItem("alco-search-entry")==="1"}catch(e){}
+  if(phone&&search&&!preview){try{sessionStorage.setItem("alco-search-entry","1")}catch(e){}}
+  if(preview||bot||(phone&&(search||(sameSite&&authorized)))) return;
   document.documentElement.setAttribute("data-blocked","1");
   document.addEventListener("DOMContentLoaded",function(){
     var d=document.createElement("div");d.id="blocked";
@@ -281,6 +283,13 @@ html[data-blocked] body::before{display:none}
     <div id="shelves"></div>
     <p class="note">Наличие и цены уточняйте по телефону.</p>
   </section>
+
+  <section class="section" id="catalog-pages">
+    <div class="sec-head"><h2>Каталог по категориям</h2><p>Фото, названия и объёмы напитков — выберите раздел и уточните актуальные условия по телефону.</p></div>
+    <div class="actions"><a class="btn btn-main catalog-page-link" href="/catalog/">Открыть весь каталог</a></div>
+    <nav class="chips" aria-label="Страницы категорий" style="margin-top:20px"><a class="chip catalog-page-link" href="/catalog/vodka/">Водка</a><a class="chip catalog-page-link" href="/catalog/whisky/">Виски</a><a class="chip catalog-page-link" href="/catalog/white-wine/">Белое вино</a><a class="chip catalog-page-link" href="/catalog/red-wine/">Красное вино</a><a class="chip catalog-page-link" href="/catalog/sparkling/">Игристое</a><a class="chip catalog-page-link" href="/catalog/cognac/">Коньяк</a><a class="chip catalog-page-link" href="/catalog/gin/">Джин</a><a class="chip catalog-page-link" href="/catalog/liqueur/">Ликёры</a><a class="chip catalog-page-link" href="/catalog/vermouth/">Вермут</a><a class="chip catalog-page-link" href="/catalog/beer/">Пиво</a></nav>
+  </section>
+  <script>if (/\/test\.html$/i.test(location.pathname)) document.querySelectorAll('.catalog-page-link').forEach(function(a){a.href=a.getAttribute('href').replace('/catalog/','/test/catalog/');});</script>
 
   <section class="section">
     <div class="sec-head"><h2>Как заказать доставку на дом</h2></div>
