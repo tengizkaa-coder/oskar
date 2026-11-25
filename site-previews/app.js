@@ -21,7 +21,11 @@
     function render() {
       const query = search.value.trim().toLocaleLowerCase('ru');
       const shown = shuffled.filter(p => (active === 'all' || p[0] === active) && (p[1] + ' ' + labels[p[0]]).toLocaleLowerCase('ru').includes(query));
-      products.innerHTML = shown.map((p, i) => `<article class="product"><div class="product-image"><span class="product-number">${String(i + 1).padStart(2, '0')}</span><img src="../${escapeHtml(p[3])}" alt="${escapeHtml(p[1])}" loading="lazy" decoding="async"></div><div class="product-info"><span class="product-cat">${escapeHtml(labels[p[0]])}</span><h3>${escapeHtml(p[1])}</h3><p>${escapeHtml(p[2])}</p><a href="${phone}" aria-label="Заказать ${escapeHtml(p[1])} по телефону">Заказать <span>↗</span></a></div></article>`).join('');
+      products.innerHTML = shown.map((p, i) => {
+        const slug = p[3].split('/').pop().replace(/\.[^.]+$/, '');
+        const href = `catalog/product/${encodeURIComponent(slug)}/`;
+        return `<article class="product"><div class="product-image"><span class="product-number">${String(i + 1).padStart(2, '0')}</span><img src="../${escapeHtml(p[3])}" alt="${escapeHtml(p[1])}, ${escapeHtml(p[2])}" loading="lazy" decoding="async"></div><div class="product-info"><span class="product-cat">${escapeHtml(labels[p[0]])}</span><h3><a class="expanded-product-title" href="${href}">${escapeHtml(p[1])}</a></h3><p>${escapeHtml(p[2])}</p><p>В наличии · цену уточняйте по телефону</p><a href="${phone}" aria-label="Заказать ${escapeHtml(p[1])} по телефону">Заказать <span>↗</span></a></div></article>`;
+      }).join('');
       empty.hidden = shown.length !== 0;
     }
     filters.addEventListener('click', event => { const button = event.target.closest('button[data-category]'); if (!button) return; active = button.dataset.category; filters.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === button))); render(); });
