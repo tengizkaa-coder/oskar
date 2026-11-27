@@ -10,7 +10,7 @@
 <meta name="description" content="Круглосуточная доставка алкоголя на дом в Москве. Виски, водка, коньяк, вино и другие напитки. Выберите товары и позвоните, чтобы уточнить цену и оформить заказ.">
 <link rel="canonical" href="https://alcohub-msk.com/">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"АЛКО МСК","url":"https://alcohub-msk.com/"}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Store", "name": "АЛКО МСК", "url": "https://alcohub-msk.com/", "telephone": "+74950959599", "address": {"@type": "PostalAddress", "streetAddress": "Мещанская ул., 18", "addressLocality": "Москва", "addressCountry": "RU"}, "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "00:00", "closes": "23:59"}], "sameAs": ["https://t.me/alkomsk_shop_bot"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Store", "name": "АЛКО МСК", "url": "https://alcohub-msk.com/", "address": {"@type": "PostalAddress", "streetAddress": "Мещанская ул., 18", "addressLocality": "Москва", "addressCountry": "RU"}, "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "00:00", "closes": "23:59"}], "sameAs": ["https://t.me/alkomsk_shop_bot"]}</script>
 <meta name="robots" content="index,follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -120,7 +120,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var
 .tag::before{content:"";position:absolute;left:50%;top:-12px;width:2px;height:12px;background:var(--tag-line)}
 .tag b{font-weight:600}
 .tag span{color:var(--tag-muted);font-variant-numeric:tabular-nums}
-.tag .order{display:flex;align-items:center;justify-content:center;min-height:44px;margin-top:auto;
+.tag .order{border:0;width:100%;cursor:pointer;display:flex;align-items:center;justify-content:center;min-height:44px;margin-top:auto;
   padding:8px 6px;background:var(--amber);color:var(--amber-fg);border-radius:4px;
   font:600 13px var(--body);text-align:center;text-decoration:none}
 .note{color:var(--muted);font-size:14px;margin-top:22px}
@@ -248,16 +248,19 @@ html[data-blocked] body::before{display:none}
   });
 })();
 </script>
+<link rel="stylesheet" href="/catalog-assets/order.css?v=1">
+<script defer src="/catalog-assets/order.js?v=1"></script>
 <script defer src="/catalog-assets/metrics.js?v=1"></script>
 <script src="/site-previews/products.js"></script>
 <script defer src="/catalog-assets/home.js?v=1"></script>
 </head>
 <body>
+<noscript><style>.order-trigger{display:none!important}</style><a class="nojs-contact" href="https://t.me/alkomsk_shop_bot">Связаться через Telegram</a></noscript>
 
 <header>
   <div class="wrap bar">
     <a class="logo" href="/" style="text-decoration:none">Алко <i>мск</i></a>
-    <a class="btn btn-main btn-sm" href="tel:+74950959599">+7 (495) 095-95-99</a>
+    <button type="button" class="order-trigger btn btn-main btn-sm">Заказать</button>
   </div>
   <nav class="wrap home-nav" aria-label="Основная навигация"><a class="catalog-page-link" href="/catalog/">Каталог</a><a class="catalog-page-link" href="/catalog/delivery/">Доставка</a><a href="#contacts">Контакты</a><a href="https://t.me/alkomsk_shop_bot">Telegram-бот</a></nav>
 </header>
@@ -270,7 +273,7 @@ html[data-blocked] body::before{display:none}
       <p class="lead">Закажите доставку алкоголя на дом в Москве днём или ночью. Выберите напитки и позвоните — уточним цену и оформим заказ.</p>
       <div class="actions">
         <a class="btn btn-main catalog-page-link" href="/catalog/">Открыть каталог</a>
-        <a class="btn btn-ghost" href="tel:+74950959599">Заказать по телефону</a>
+        <button type="button" class="order-trigger btn btn-ghost">Заказать</button>
         <a class="btn btn-ghost" href="https://t.me/alkomsk_shop_bot">Telegram-бот</a>
       </div>
     </div>
@@ -322,10 +325,10 @@ html[data-blocked] body::before{display:none}
         <div class="c-list">
           <div class="fact"><span class="label">Адрес</span><strong>Москва, Мещанская ул., 18</strong></div>
           <div class="fact"><span class="label">Часы работы</span><strong>Круглосуточно</strong></div>
-          <div class="fact"><span class="label">Телефон</span><strong>+7 (495) 095-95-99</strong></div>
+
         </div>
         <div class="actions">
-          <a class="btn btn-main" href="tel:+74950959599">Заказать по телефону</a>
+          <button type="button" class="order-trigger btn btn-main">Заказать</button>
         </div>
       </div>
       <div class="map" style="padding:0;overflow:hidden"><iframe title="Карта: расположение магазина" src="https://www.google.com/maps?q=55.7774025,37.628121&z=17&hl=ru&output=embed" style="border:0;width:100%;height:100%;min-height:300px" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
@@ -334,7 +337,7 @@ html[data-blocked] body::before{display:none}
 </main>
 
 <div class="callbar">
-  <a class="btn btn-main" href="tel:+74950959599">Заказать по телефону</a>
+  <button type="button" class="order-trigger btn btn-main">Заказать</button>
 </div>
 
 <footer class="wrap">
@@ -396,7 +399,7 @@ document.getElementById("shelves").innerHTML = Object.entries(CATS).map(([k,c])=
     <div class="shelf-head"><h3>${c.t}<small>${plural(items.length)}</small></h3></div>
     <ul class="row">${items.map((x,i)=>`<li class="item">
       <div class="stand">${x[3]?`<img src="/${x[3]}" alt="${x[1]}, ${x[2]}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="fb(this,'${k}',${i})">`:bottle(k,i)}</div>
-      <div class="tag"><b>${x[1]}</b><span>${x[2]} · В наличии</span><a class="order" href="tel:+74950959599" aria-label="Заказать ${x[1]} по телефону">Заказать</a></div>
+      <div class="tag"><b>${x[1]}</b><span>${x[2]} · В наличии</span><button type="button" class="order-trigger order">Заказать</button></div>
     </li>`).join("")}</ul>
   </section>`;
 }).join("");
